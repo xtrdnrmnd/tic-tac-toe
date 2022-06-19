@@ -150,6 +150,7 @@ def placeO(screen, x, y):
         pygame.draw.circle(screen, WHITE, [x, y], 20, 6)
         pygame.display.update()
         if checkWin("o", screen):
+            pygame.time.delay(500)
             screen.fill((0, 0, 0))
             font1 = pygame.font.SysFont('monospace', 24)
             text_game_over = font1.render("Well done player O!", True, WHITE)
@@ -167,6 +168,7 @@ def placeX(screen, x, y):
         pygame.draw.line(screen, WHITE, (x - 18, y + 18), (x + 18, y - 18), 8)
         pygame.display.update()
         if checkWin("x", screen):
+            pygame.time.delay(500)
             screen.fill(WHITE)
             font1 = pygame.font.SysFont('monospace', 20)
             text_game_over = font1.render("Player X u are amazing!", True, (0, 0, 0))
