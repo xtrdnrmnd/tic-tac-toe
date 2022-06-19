@@ -4,6 +4,7 @@ import pygame
 SIZE = 60
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
+BLACK = (0, 0, 0)
 PROPERTY = 360
 BOARD = [[0, 0, 0],
          [0, 0, 0],
@@ -19,7 +20,7 @@ def createTheGrid(screen):
 
 def checkWin(player, screen):
     if BOARD[0][0] == player:
-        if BOARD [1][0] == player:
+        if BOARD[1][0] == player:
             if BOARD[2][0] == player:
                 pygame.draw.line(screen, RED, (95, 120), (265, 120), 10)
                 pygame.display.update()
@@ -64,10 +65,6 @@ def checkWin(player, screen):
                 return True
     else:
         return False
-
-
-
-
 
 
 def checkCollision(x, y, player):
@@ -132,9 +129,10 @@ def checkCollision(x, y, player):
     else:
         return False
 
+
 def newGame(screen):
     pygame.time.delay(2000)
-    screen.fill((0, 0, 0))
+    screen.fill(BLACK)
     my_font = pygame.font.SysFont("monospace", 40)
     text_surface = my_font.render("Tic Tac Toe", True, WHITE)
     screen.blit(text_surface, (50, 30))
@@ -145,18 +143,31 @@ def newGame(screen):
     pygame.display.flip()
 
 
+def boardFull():
+    num = 0
+    for i in range(3):
+        for j in range(3):
+            if BOARD[i][j] == "x" or BOARD[i][j] == "o":
+                num += 1
+    if num == 9:
+        return True
+    return False
+
+
 def placeO(screen, x, y):
     if checkCollision(x, y, "o"):
         pygame.draw.circle(screen, WHITE, [x, y], 20, 6)
         pygame.display.update()
         if checkWin("o", screen):
             pygame.time.delay(500)
-            screen.fill((0, 0, 0))
+            screen.fill(BLACK)
             font1 = pygame.font.SysFont('monospace', 24)
             text_game_over = font1.render("Well done player O!", True, WHITE)
             screen.blit(text_game_over, (40, 160))
             pygame.display.flip()
             pygame.time.delay(2000)
+            newGame(screen)
+        if boardFull():
             newGame(screen)
         return True
     return False
@@ -171,10 +182,12 @@ def placeX(screen, x, y):
             pygame.time.delay(500)
             screen.fill(WHITE)
             font1 = pygame.font.SysFont('monospace', 20)
-            text_game_over = font1.render("Player X u are amazing!", True, (0, 0, 0))
+            text_game_over = font1.render("Player X u are amazing!", True, BLACK)
             screen.blit(text_game_over, (40, 160))
             pygame.display.flip()
             pygame.time.delay(2000)
+            newGame(screen)
+        if boardFull():
             newGame(screen)
         return True
     return False
