@@ -10,19 +10,6 @@ BOARD = [[0, 0, 0],
          [0, 0, 0]]
 
 
-def showMenu(screen):
-    pygame.draw.rect(screen, RED, [100, 100, 160, 50])
-    font1 = pygame.font.SysFont('monospace', 25)
-    text_play_again = font1.render("Play again", True, (0, 0, 0))
-    screen.blit(text_play_again, (105, 110))
-    pygame.draw.rect(screen, RED, [100, 200, 160, 50])
-    text_game_over = font1.render("Quit", True, (0, 0, 0))
-    screen.blit(text_game_over, (150, 210))
-
-    text_xtrdnrmnd = pygame.font.SysFont('monospace', 20).render("Made by xtrdnrmnd, 2022", True, (0, 0, 0))
-    screen.blit(text_xtrdnrmnd, (45, 340))
-
-
 def createTheGrid(screen):
     for i in range(3):
         for j in range(3):
@@ -145,6 +132,18 @@ def checkCollision(x, y, player):
     else:
         return False
 
+def newGame(screen):
+    pygame.time.delay(2000)
+    screen.fill((0, 0, 0))
+    my_font = pygame.font.SysFont("monospace", 40)
+    text_surface = my_font.render("Tic Tac Toe", True, WHITE)
+    screen.blit(text_surface, (50, 30))
+    createTheGrid(screen)
+    for i in range(3):
+        for j in range(3):
+            BOARD[i][j] = 0
+    pygame.display.flip()
+
 
 def placeO(screen, x, y):
     if checkCollision(x, y, "o"):
@@ -154,9 +153,10 @@ def placeO(screen, x, y):
             screen.fill((0, 0, 0))
             font1 = pygame.font.SysFont('monospace', 24)
             text_game_over = font1.render("Well done player O!", True, WHITE)
-            screen.blit(text_game_over, (40, 30))
-            showMenu(screen)
+            screen.blit(text_game_over, (40, 160))
             pygame.display.flip()
+            pygame.time.delay(2000)
+            newGame(screen)
         return True
     return False
 
@@ -167,13 +167,13 @@ def placeX(screen, x, y):
         pygame.draw.line(screen, WHITE, (x - 18, y + 18), (x + 18, y - 18), 8)
         pygame.display.update()
         if checkWin("x", screen):
-            pygame.time.delay(2000)
             screen.fill(WHITE)
             font1 = pygame.font.SysFont('monospace', 20)
             text_game_over = font1.render("Player X u are amazing!", True, (0, 0, 0))
-            screen.blit(text_game_over, (40, 30))
-            showMenu(screen)
+            screen.blit(text_game_over, (40, 160))
             pygame.display.flip()
+            pygame.time.delay(2000)
+            newGame(screen)
         return True
     return False
 
@@ -184,9 +184,12 @@ def startTheGame():
     pygame.init()
     screen = pygame.display.set_mode((PROPERTY, PROPERTY))
     my_font = pygame.font.SysFont("monospace", 40)
+    pygame.display.set_caption('Tic Tac Toe by xtrdmnrmnd')
     text_surface = my_font.render("Tic Tac Toe", True, WHITE)
     screen.blit(text_surface, (50, 30))
     createTheGrid(screen)
+    text_xtrdnrmnd = pygame.font.SysFont('monospace', 20).render("Made by xtrdnrmnd, 2022", True, WHITE)
+    screen.blit(text_xtrdnrmnd, (45, 340))
     pygame.display.flip()
 
     running = True
